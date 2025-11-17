@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Menu, X, Download, Mail } from 'lucide-react'
+import { motion, useScroll, useSpring } from 'framer-motion'
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 20, mass: 0.2 })
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
@@ -20,17 +24,23 @@ export default function Navbar() {
     <header className={navClasses}>
       <div className="mx-auto max-w-6xl px-4">
         <div className="flex h-16 items-center justify-between">
-          <a href="#home" className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600" />
+          <a href="#home" className="flex items-center gap-2 group">
+            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 shadow-sm group-hover:scale-95 transition" />
             <span className="font-semibold tracking-tight">Damion Marcus</span>
           </a>
 
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#about" className="text-sm text-slate-700 hover:text-slate-950">About</a>
-            <a href="#experience" className="text-sm text-slate-700 hover:text-slate-950">Experience</a>
-            <a href="#projects" className="text-sm text-slate-700 hover:text-slate-950">Projects</a>
-            <a href="#contact" className="text-sm text-slate-700 hover:text-slate-950">Contact</a>
-            <a href="/Damion-Marcus-Resume.pdf" className="inline-flex items-center gap-2 text-sm font-medium text-white bg-slate-900 hover:bg-slate-800 px-4 py-2 rounded-md transition">
+            {[
+              { href: '#about', label: 'About' },
+              { href: '#experience', label: 'Experience' },
+              { href: '#projects', label: 'Projects' },
+              { href: '#contact', label: 'Contact' },
+            ].map((l) => (
+              <a key={l.href} href={l.href} className="text-sm text-slate-700 hover:text-slate-950 relative after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-slate-900 after:transition-all hover:after:w-full">
+                {l.label}
+              </a>
+            ))}
+            <a href="/Damion-Marcus-Resume.pdf" className="inline-flex items-center gap-2 text-sm font-medium text-white bg-slate-900 hover:bg-slate-800 px-4 py-2 rounded-md transition shadow-sm">
               <Download className="h-4 w-4" /> Resume
             </a>
           </nav>
@@ -54,6 +64,8 @@ export default function Navbar() {
           </div>
         )}
       </div>
+
+      <motion.div style={{ scaleX }} className="origin-left h-[2px] bg-gradient-to-r from-blue-600 via-indigo-600 to-fuchsia-600" />
     </header>
   )
 }

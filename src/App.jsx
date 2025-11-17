@@ -12,8 +12,10 @@ function App() {
 
       <main>
         <Hero />
+        <GradientDivider />
         <About />
         <Experience />
+        <SectionDivider />
         <Projects />
         <Contact />
       </main>
@@ -24,6 +26,26 @@ function App() {
           <a href="#home" className="text-sm text-slate-700 hover:text-slate-950">Back to top ↑</a>
         </div>
       </footer>
+    </div>
+  )
+}
+
+function GradientDivider() {
+  return (
+    <div className="relative">
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+    </div>
+  )
+}
+
+function SectionDivider() {
+  return (
+    <div className="mx-auto max-w-6xl px-4">
+      <div className="relative my-10 rounded-xl border border-slate-200 bg-gradient-to-r from-blue-50 via-white to-indigo-50 p-[1px]">
+        <div className="rounded-xl bg-white p-4 text-center text-sm text-slate-600">
+          Explore more case studies below
+        </div>
+      </div>
     </div>
   )
 }
